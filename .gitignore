@@ -1,0 +1,19 @@
+# Claude Code project instructions
+CLAUDE.md
+
+# Dependencies
+node_modules/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Vercel
+.vercel/

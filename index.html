@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Epstein Files Snake Game</title>
+    <link rel="icon" type="image/jpeg" href="assets/epstein.jpeg">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 class="page-title">THE EPSTEIN FILES</h1>
+        <p class="page-subtitle">[ CLASSIFIED EVIDENCE RETRIEVAL SYSTEM ]</p>
+    </header>
+
+    <!-- Main Game Container (Monitor Bezel) -->
+    <div id="game-container">
+        <!-- Screen Area -->
+        <div id="screen">
+            <!-- Background Image -->
+            <img id="epstein-bg" src="assets/epstein.jpeg" alt="" />
+
+            <!-- Game Canvas -->
+            <canvas id="game-canvas"></canvas>
+
+            <!-- Menu Screen -->
+            <div id="menu-screen" class="screen-overlay">
+                <h1 class="game-title">CLASSIFIED</h1>
+                <p class="game-subtitle">// EVIDENCE EXFILTRATION PROTOCOL //</p>
+                <button id="start-btn" class="btn">[ START EXFILTRATION ]</button>
+                <button id="leaderboard-btn" class="btn btn-secondary">[ LEADERBOARD ]</button>
+                <button id="settings-btn" class="btn btn-secondary">[ SETTINGS ]</button>
+                <button id="buy-btn" class="btn btn-gold">[ BUY $ISLAND ]</button>
+            </div>
+
+            <!-- Settings Screen -->
+            <div id="settings-screen" class="screen-overlay hidden">
+                <h2 class="settings-title">// CONFIGURATION //</h2>
+
+                <div class="settings-panel">
+                    <div class="setting-row">
+                        <span class="setting-label">AUDIO OUTPUT</span>
+                        <button id="sound-toggle" class="toggle-btn" data-enabled="false">
+                            [ OFF ]
+                        </button>
+                    </div>
+
+                    <div class="setting-row">
+                        <span class="setting-label">CRT EFFECTS</span>
+                        <button id="crt-toggle" class="toggle-btn" data-enabled="true">
+                            [ ON ]
+                        </button>
+                    </div>
+
+                    <div class="setting-section">
+                        <h3 class="setting-header">CONTROL PROTOCOL</h3>
+                        <div class="control-grid">
+                            <div class="control-item">
+                                <span class="key-display">W / ↑</span>
+                                <span class="key-action">NORTH</span>
+                            </div>
+                            <div class="control-item">
+                                <span class="key-display">S / ↓</span>
+                                <span class="key-action">SOUTH</span>
+                            </div>
+                            <div class="control-item">
+                                <span class="key-display">A / ←</span>
+                                <span class="key-action">WEST</span>
+                            </div>
+                            <div class="control-item">
+                                <span class="key-display">D / →</span>
+                                <span class="key-action">EAST</span>
+                            </div>
+                            <div class="control-item control-item-wide">
+                                <span class="key-display">SPACE</span>
+                                <span class="key-action">START / RETRY</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-footer">
+                        <span>VERSION 1.0.0</span>
+                    </div>
+                </div>
+
+                <button id="settings-back-btn" class="btn btn-secondary">[ RETURN ]</button>
+            </div>
+
+            <!-- Game Screen (HUD only, canvas shows through) -->
+            <div id="game-screen" class="screen-overlay hidden">
+                <div class="hud">
+                    <span id="score" class="hud-item">EVIDENCE: 0</span>
+                    <span id="high-score" class="hud-item">HIGH: 0</span>
+                </div>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="game-over-screen" class="screen-overlay hidden">
+                <div class="stamp">INVESTIGATION TERMINATED</div>
+                <p id="final-score" class="result-text">EVIDENCE COLLECTED: 0</p>
+                <p id="final-rank" class="result-text">INVESTIGATOR RANK: ROOKIE LEAKER</p>
+                <p id="death-cause" class="death-cause">Cause of death: Collision. Data stream severed.</p>
+
+                <!-- Leaderboard submission -->
+                <div id="leaderboard-submit" class="leaderboard-submit hidden">
+                    <p class="submit-prompt">SUBMIT TO LEADERBOARD</p>
+                    <div class="username-input-group">
+                        <input
+                            type="text"
+                            id="username-input"
+                            class="username-input"
+                            placeholder="ENTER CODENAME"
+                            maxlength="20"
+                            autocomplete="off"
+                        />
+                        <button id="submit-score-btn" class="btn btn-small">[ SUBMIT ]</button>
+                    </div>
+                    <p id="submit-status" class="submit-status"></p>
+                </div>
+
+                <div class="button-group">
+                    <button id="play-again-btn" class="btn">[ RETRY EXFILTRATION ]</button>
+                    <button id="share-btn" class="btn btn-red">[ LEAK TO X ]</button>
+                    <button id="menu-btn" class="btn btn-secondary">[ MAIN MENU ]</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard Screen -->
+            <div id="leaderboard-screen" class="screen-overlay hidden">
+                <h2 class="leaderboard-title">// MOST WANTED //</h2>
+                <div id="leaderboard-loading" class="loading-text">[ ACCESSING DATABASE... ]</div>
+                <div id="leaderboard-content" class="leaderboard-content hidden">
+                    <div class="leaderboard-table">
+                        <div class="leaderboard-header">
+                            <span class="col-rank">#</span>
+                            <span class="col-username">CODENAME</span>
+                            <span class="col-score">FILES</span>
+                            <span class="col-time">TIME</span>
+                        </div>
+                        <div id="leaderboard-list" class="leaderboard-list"></div>
+                    </div>
+                </div>
+                <div id="leaderboard-error" class="error-text hidden">[ DATABASE OFFLINE ]</div>
+                <button id="leaderboard-back-btn" class="btn btn-secondary">[ RETURN ]</button>
+            </div>
+        </div>
+
+        <!-- Bezel Physical Buttons -->
+        <div class="bezel-buttons">
+            <div class="bezel-btn power on"></div>
+        </div>
+    </div>
+
+    <!-- Mobile D-Pad -->
+    <div id="dpad" class="hidden">
+        <button id="dpad-up" class="dpad-btn" aria-label="Up">
+            <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h16z"/></svg>
+        </button>
+        <button id="dpad-down" class="dpad-btn" aria-label="Down">
+            <svg viewBox="0 0 24 24"><path d="M12 20l8-8H4z"/></svg>
+        </button>
+        <button id="dpad-left" class="dpad-btn" aria-label="Left">
+            <svg viewBox="0 0 24 24"><path d="M4 12l8 8V4z"/></svg>
+        </button>
+        <button id="dpad-right" class="dpad-btn" aria-label="Right">
+            <svg viewBox="0 0 24 24"><path d="M20 12l-8-8v16z"/></svg>
+        </button>
+    </div>
+
+    <!-- Scripts (order matters) -->
+    <script src="js/constants.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/snake.js"></script>
+    <script src="js/food.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
