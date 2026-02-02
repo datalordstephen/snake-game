@@ -831,9 +831,10 @@ body {
 }
 
 .btn-small {
-    min-width: 100px;
-    padding: 10px 15px;
-    font-size: 14px;
+    min-width: auto;
+    padding: 10px 20px;
+    font-size: 12px;
+    white-space: nowrap;
 }
 
 .submit-status {

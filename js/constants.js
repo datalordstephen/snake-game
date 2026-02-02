@@ -1,8 +1,8 @@
 // Game Constants
 const CONSTANTS = {
     // Canvas & Grid
-    CANVAS_SIZE: 500,
-    GRID_SIZE: 20,
+    CANVAS_SIZE: 450,
+    GRID_SIZE: 18,
     CELL_SIZE: 25, // CANVAS_SIZE / GRID_SIZE
 
     // Colors - CRT phosphor palette

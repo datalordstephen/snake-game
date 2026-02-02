@@ -1,4 +1,6 @@
-import { sql } from '@vercel/postgres';
+import { neon } from '@neondatabase/serverless';
+
+const sql = neon(process.env.DATABASE_URL);
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -24,7 +26,7 @@ export default async function handler(req, res) {
 
             return res.status(200).json({
                 success: true,
-                scores: result.rows
+                scores: result
             });
         }
 
@@ -78,7 +80,7 @@ export default async function handler(req, res) {
 
             return res.status(200).json({
                 success: true,
-                position: parseInt(position.rows[0].position) + 1,
+                position: parseInt(position[0].position) + 1,
                 rank
             });
         }
