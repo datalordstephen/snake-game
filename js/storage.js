@@ -78,10 +78,10 @@ const Storage = {
     getSettings() {
         try {
             const settings = localStorage.getItem(CONSTANTS.STORAGE_KEYS.SETTINGS);
-            return settings ? JSON.parse(settings) : { sound: false, crtEffects: true };
+            return settings ? JSON.parse(settings) : { sound: false, music: true, crtEffects: true };
         } catch (e) {
             console.warn('Could not access localStorage:', e);
-            return { sound: false, crtEffects: true };
+            return { sound: false, music: true, crtEffects: true };
         }
     },
 

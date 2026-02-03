@@ -40,15 +40,15 @@
 
                 <div class="settings-panel">
                     <div class="setting-row">
-                        <span class="setting-label">AUDIO OUTPUT</span>
+                        <span class="setting-label">SOUND FX</span>
                         <button id="sound-toggle" class="toggle-btn" data-enabled="false">
                             [ OFF ]
                         </button>
                     </div>
 
                     <div class="setting-row">
-                        <span class="setting-label">CRT EFFECTS</span>
-                        <button id="crt-toggle" class="toggle-btn" data-enabled="true">
+                        <span class="setting-label">MUSIC</span>
+                        <button id="music-toggle" class="toggle-btn" data-enabled="true">
                             [ ON ]
                         </button>
                     </div>
@@ -97,20 +97,18 @@
 
             <!-- Game Over Screen -->
             <div id="game-over-screen" class="screen-overlay hidden">
-                <div class="stamp">INVESTIGATION TERMINATED</div>
-                <p id="final-score" class="result-text">EVIDENCE COLLECTED: 0</p>
-                <p id="final-rank" class="result-text">INVESTIGATOR RANK: ROOKIE LEAKER</p>
-                <p id="death-cause" class="death-cause">Cause of death: Collision. Data stream severed.</p>
+                <div class="stamp">TERMINATED</div>
+                <p id="final-score" class="result-text">EVIDENCE: <span id="score-value">0</span></p>
+                <p id="final-rank" class="result-text-dim">RANK: <span id="rank-value">ROOKIE LEAKER</span></p>
 
                 <!-- Leaderboard submission -->
                 <div id="leaderboard-submit" class="leaderboard-submit hidden">
-                    <p class="submit-prompt">SUBMIT TO LEADERBOARD</p>
                     <div class="username-input-group">
                         <input
                             type="text"
                             id="username-input"
                             class="username-input"
-                            placeholder="ENTER CODENAME"
+                            placeholder="CODENAME"
                             maxlength="20"
                             autocomplete="off"
                         />
@@ -120,9 +118,9 @@
                 </div>
 
                 <div class="button-group">
-                    <button id="play-again-btn" class="btn">[ RETRY EXFILTRATION ]</button>
-                    <button id="share-btn" class="btn btn-red">[ LEAK TO X ]</button>
-                    <button id="menu-btn" class="btn btn-secondary">[ MAIN MENU ]</button>
+                    <button id="play-again-btn" class="btn">[ RETRY ]</button>
+                    <button id="share-btn" class="btn btn-red">[ SHARE ]</button>
+                    <button id="menu-btn" class="btn btn-secondary">[ MENU ]</button>
                 </div>
             </div>
 
@@ -170,6 +168,7 @@
 
     <!-- Scripts (order matters) -->
     <script src="js/constants.js"></script>
+    <script src="js/audio.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/leaderboard.js"></script>
     <script src="js/effects.js"></script>

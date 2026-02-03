@@ -18,6 +18,7 @@ const UI = {
             settingsBtn: document.getElementById('settings-btn'),
             settingsBackBtn: document.getElementById('settings-back-btn'),
             soundToggle: document.getElementById('sound-toggle'),
+            musicToggle: document.getElementById('music-toggle'),
             crtToggle: document.getElementById('crt-toggle'),
             buyBtn: document.getElementById('buy-btn'),
             playAgainBtn: document.getElementById('play-again-btn'),
@@ -25,9 +26,8 @@ const UI = {
             menuBtn: document.getElementById('menu-btn'),
             scoreDisplay: document.getElementById('score'),
             highScoreDisplay: document.getElementById('high-score'),
-            finalScore: document.getElementById('final-score'),
-            finalRank: document.getElementById('final-rank'),
-            deathCause: document.getElementById('death-cause'),
+            scoreValue: document.getElementById('score-value'),
+            rankValue: document.getElementById('rank-value'),
             leaderboardSubmit: document.getElementById('leaderboard-submit'),
             usernameInput: document.getElementById('username-input'),
             submitScoreBtn: document.getElementById('submit-score-btn'),
@@ -138,29 +138,21 @@ const UI = {
     /**
      * Show the game over screen with results
      * @param {number} score - Final score
-     * @param {string} collisionType - 'wall' or 'self'
      */
-    showGameOver(score, collisionType) {
+    showGameOver(score) {
         const rank = this.calculateRank(score);
         const isNewHighScore = Storage.saveHighScore(score);
 
-        if (this.elements.finalScore) {
-            let scoreText = `EVIDENCE COLLECTED: ${score}`;
+        if (this.elements.scoreValue) {
+            let scoreText = `${score}`;
             if (isNewHighScore && score > 0) {
                 scoreText += ' [NEW RECORD]';
             }
-            this.elements.finalScore.textContent = scoreText;
+            this.elements.scoreValue.textContent = scoreText;
         }
 
-        if (this.elements.finalRank) {
-            this.elements.finalRank.textContent = `INVESTIGATOR RANK: ${rank.toUpperCase()}`;
-        }
-
-        if (this.elements.deathCause) {
-            const cause = collisionType === 'wall'
-                ? 'Cause of death: Wall collision. Data stream severed.'
-                : 'Cause of death: Self-intersection. Data corrupted.';
-            this.elements.deathCause.textContent = cause;
+        if (this.elements.rankValue) {
+            this.elements.rankValue.textContent = rank.toUpperCase();
         }
 
         // Handle leaderboard submission
@@ -234,6 +226,12 @@ const UI = {
         if (this.elements.soundToggle) {
             this.elements.soundToggle.dataset.enabled = settings.sound;
             this.elements.soundToggle.textContent = settings.sound ? '[ ON ]' : '[ OFF ]';
+        }
+
+        // Apply music setting
+        if (this.elements.musicToggle) {
+            this.elements.musicToggle.dataset.enabled = settings.music;
+            this.elements.musicToggle.textContent = settings.music ? '[ ON ]' : '[ OFF ]';
         }
     },
 

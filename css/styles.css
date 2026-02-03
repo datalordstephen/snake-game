@@ -420,64 +420,55 @@ body {
 
 /* Game Over Screen */
 #game-over-screen {
-    background: rgba(30, 0, 0, 0.95);
-    gap: 5px;
-    padding: 8px;
+    background: rgba(20, 0, 0, 0.95);
+    gap: 10px;
+    padding: 20px;
     overflow-y: auto;
 }
 
 .stamp {
     color: var(--crt-red);
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 6px 12px;
-    border: 2px solid var(--crt-red);
-    transform: rotate(-2deg);
+    letter-spacing: 4px;
     text-shadow: 0 0 10px var(--crt-red), 0 0 20px rgba(255, 0, 64, 0.5);
-    box-shadow: 0 0 15px rgba(255, 0, 64, 0.5);
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     animation: stamp-slam 0.3s ease-out;
-    flex-shrink: 0;
-    white-space: nowrap;
 }
 
 @keyframes stamp-slam {
     0% {
-        transform: rotate(-2deg) scale(2);
+        transform: scale(2);
         opacity: 0;
     }
     70% {
-        transform: rotate(-2deg) scale(0.95);
+        transform: scale(0.95);
     }
     100% {
-        transform: rotate(-2deg) scale(1);
+        transform: scale(1);
         opacity: 1;
     }
 }
 
 .result-text {
     color: var(--crt-green);
-    font-size: 14px;
-    letter-spacing: 1px;
-    text-shadow: 0 0 5px var(--crt-green), 0 0 10px rgba(0, 255, 65, 0.3);
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--crt-green);
 }
 
-.death-cause {
-    color: #ff6b6b;
-    font-size: 11px;
+.result-text-dim {
+    color: var(--crt-green-dim);
+    font-size: 14px;
     letter-spacing: 1px;
-    margin-top: 3px;
-    font-style: italic;
-    text-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
 }
 
 .button-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 8px;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 /* Mobile D-Pad */
@@ -657,6 +648,10 @@ body {
 /* Settings Screen */
 #settings-screen {
     gap: 20px;
+    overflow-y: auto;
+    padding: 15px;
+    justify-content: flex-start;
+    padding-top: 20px;
 }
 
 .settings-title {

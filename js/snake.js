@@ -33,6 +33,7 @@ class Snake {
     /**
      * Queue a direction change (prevents 180° turns)
      * @param {Object} newDirection - The direction to queue
+     * @returns {boolean} Whether the direction was actually queued
      */
     setDirection(newDirection) {
         // Get the effective current direction (last queued or current)
@@ -46,9 +47,17 @@ class Snake {
             effectiveDirection.y + newDirection.y === 0
         );
 
-        if (!isOpposite && this.directionQueue.length < 2) {
+        // Check if it's actually a different direction
+        const isSame = (
+            effectiveDirection.x === newDirection.x &&
+            effectiveDirection.y === newDirection.y
+        );
+
+        if (!isOpposite && !isSame && this.directionQueue.length < 2) {
             this.directionQueue.push(newDirection);
+            return true;
         }
+        return false;
     }
 
     /**

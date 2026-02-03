@@ -15,6 +15,12 @@
         setupKeyboardControls();
         setupTouchControls();
         setupMobileControls();
+        setupAudioInit();
+
+        // Load saved audio settings
+        const settings = Storage.getSettings();
+        Audio.enabled = settings.sound === true;
+        Audio.musicEnabled = settings.music === true;
 
         // Trigger CRT power-on effect
         const screen = document.getElementById('screen');
@@ -30,14 +36,35 @@
     }
 
     /**
+     * Set up audio initialization on first user interaction
+     */
+    function setupAudioInit() {
+        const initAudio = () => {
+            Audio.init();
+            Audio.resume();
+            // Remove listeners after first interaction
+            document.removeEventListener('click', initAudio);
+            document.removeEventListener('keydown', initAudio);
+            document.removeEventListener('touchstart', initAudio);
+        };
+
+        document.addEventListener('click', initAudio);
+        document.addEventListener('keydown', initAudio);
+        document.addEventListener('touchstart', initAudio);
+    }
+
+    /**
      * Set up menu button listeners
      */
     function setupMenuListeners() {
         const { startBtn, leaderboardBtn, leaderboardBackBtn, buyBtn, playAgainBtn, shareBtn, menuBtn,
-                settingsBtn, settingsBackBtn, soundToggle, crtToggle, submitScoreBtn, usernameInput } = UI.elements;
+                settingsBtn, settingsBackBtn, soundToggle, musicToggle, crtToggle, submitScoreBtn, usernameInput } = UI.elements;
 
         if (startBtn) {
-            startBtn.addEventListener('click', () => Game.start());
+            startBtn.addEventListener('click', () => {
+                Audio.menuSelect();
+                Game.start();
+            });
         }
 
         if (leaderboardBtn) {
@@ -73,8 +100,37 @@
         if (soundToggle) {
             soundToggle.addEventListener('click', () => {
                 const enabled = UI.toggleSetting(soundToggle);
+                Audio.enabled = enabled;
+                if (enabled) {
+                    Audio.init();
+                    Audio.resume();
+                    Audio.menuSelect(); // Play a sound to confirm
+                }
                 const settings = Storage.getSettings();
                 settings.sound = enabled;
+                Storage.saveSettings(settings);
+            });
+        }
+
+        if (musicToggle) {
+            musicToggle.addEventListener('click', () => {
+                const enabled = UI.toggleSetting(musicToggle);
+                Audio.musicEnabled = enabled;
+                if (enabled) {
+                    Audio.init();
+                    Audio.resume();
+                    // Start music preview briefly
+                    Audio.startMusic();
+                    setTimeout(() => {
+                        if (Game.state !== CONSTANTS.STATES.PLAYING) {
+                            Audio.stopMusic();
+                        }
+                    }, 2000);
+                } else {
+                    Audio.stopMusic();
+                }
+                const settings = Storage.getSettings();
+                settings.music = enabled;
                 Storage.saveSettings(settings);
             });
         }
@@ -100,7 +156,10 @@
         }
 
         if (playAgainBtn) {
-            playAgainBtn.addEventListener('click', () => Game.start());
+            playAgainBtn.addEventListener('click', () => {
+                Audio.menuSelect();
+                Game.start();
+            });
         }
 
         if (shareBtn) {

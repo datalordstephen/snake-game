@@ -63,6 +63,10 @@ const Game = {
         UI.updateScore(this.score);
         UI.showScreen('game');
 
+        // Play start sound and start music
+        Audio.gameStart();
+        Audio.startMusic();
+
         this.lastMoveTime = performance.now();
         this.lastFrameTime = performance.now();
         this.gameLoop();
@@ -123,6 +127,9 @@ const Game = {
         this.food.spawn(this.snake);
         UI.updateScore(this.score);
 
+        // Play eat sound
+        Audio.eat();
+
         // Increase speed every N nodes
         if (this.score % CONSTANTS.NODES_PER_SPEED_INCREASE === 0) {
             this.moveInterval = Math.max(
@@ -140,6 +147,11 @@ const Game = {
         this.state = CONSTANTS.STATES.GAME_OVER;
         this.collisionType = collisionType;
 
+        // Stop music and play collision/game over sounds
+        Audio.stopMusic();
+        Audio.wallHit();
+        setTimeout(() => Audio.gameOver(), 100);
+
         // Trigger glitch effect
         Effects.triggerGlitch();
 
@@ -153,7 +165,7 @@ const Game = {
         const checkGlitch = () => {
             this.renderGameOver();
             if (Effects.isGlitchComplete()) {
-                UI.showGameOver(this.score, collisionType);
+                UI.showGameOver(this.score);
             } else {
                 requestAnimationFrame(checkGlitch);
             }
@@ -286,7 +298,10 @@ const Game = {
         };
 
         if (dirMap[direction]) {
-            this.snake.setDirection(dirMap[direction]);
+            const changed = this.snake.setDirection(dirMap[direction]);
+            if (changed) {
+                Audio.turn();
+            }
         }
     },
 
@@ -295,6 +310,7 @@ const Game = {
      */
     returnToMenu() {
         this.state = CONSTANTS.STATES.MENU;
+        Audio.stopMusic();
         UI.showScreen('menu');
     },
 
