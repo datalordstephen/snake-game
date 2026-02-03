@@ -163,12 +163,22 @@ const UI = {
             this.elements.deathCause.textContent = cause;
         }
 
-        // Show leaderboard submission if score > 0
+        // Handle leaderboard submission
         if (score > 0 && this.elements.leaderboardSubmit) {
-            this.elements.leaderboardSubmit.classList.remove('hidden');
-            this.elements.usernameInput.value = Storage.getUsername() || '';
-            this.elements.submitStatus.textContent = '';
-            this.elements.submitStatus.className = 'submit-status';
+            const savedUsername = Storage.getUsername();
+            if (savedUsername) {
+                // Auto-submit for returning users
+                this.elements.leaderboardSubmit.classList.add('hidden');
+                this.autoSubmitToLeaderboard(savedUsername, score);
+            } else {
+                // Show input for new users
+                this.elements.leaderboardSubmit.classList.remove('hidden');
+                this.elements.usernameInput.value = '';
+                this.elements.usernameInput.disabled = false;
+                this.elements.submitScoreBtn.disabled = false;
+                this.elements.submitStatus.textContent = '';
+                this.elements.submitStatus.className = 'submit-status';
+            }
         } else if (this.elements.leaderboardSubmit) {
             this.elements.leaderboardSubmit.classList.add('hidden');
         }
@@ -255,7 +265,20 @@ const UI = {
     },
 
     /**
-     * Submit score to leaderboard
+     * Auto-submit score for returning users
+     * @param {string} username - Saved username
+     * @param {number} score - Player's score
+     */
+    async autoSubmitToLeaderboard(username, score) {
+        const result = await Leaderboard.submitScore(username, score);
+        // Silent submit - no UI feedback needed for auto-submit
+        if (!result.success) {
+            console.error('Auto-submit failed:', result.error);
+        }
+    },
+
+    /**
+     * Submit score to leaderboard (manual, for new users)
      * @param {number} score - Player's score
      */
     async submitToLeaderboard(score) {
