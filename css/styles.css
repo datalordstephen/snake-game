@@ -334,7 +334,7 @@ body {
     border: 2px solid var(--crt-green);
     padding: 10px 20px;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
@@ -428,7 +428,7 @@ body {
 
 .stamp {
     color: var(--crt-red);
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -459,14 +459,14 @@ body {
 
 .result-text {
     color: var(--crt-green);
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: 1px;
     text-shadow: 0 0 5px var(--crt-green), 0 0 10px rgba(0, 255, 65, 0.3);
 }
 
 .death-cause {
     color: #ff6b6b;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 1px;
     margin-top: 3px;
     font-style: italic;
