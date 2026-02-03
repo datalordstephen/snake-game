@@ -192,7 +192,7 @@ const UI = {
             `Evidence collected: ${score}`,
             `Rank: ${rank}`,
             '',
-            '$ISLAND',
+            '$EPSTEIN',
             '',
             CONSTANTS.GAME_URL
         ].join('\n');
@@ -414,7 +414,7 @@ const UI = {
         // Footer
         ctx.font = '16px monospace';
         ctx.fillStyle = '#666666';
-        ctx.fillText('$ISLAND', 300, 340);
+        ctx.fillText('$EPSTEIN', 300, 340);
         ctx.fillText(CONSTANTS.GAME_URL, 300, 365);
 
         // Scanlines
