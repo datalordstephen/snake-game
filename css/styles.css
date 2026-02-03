@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
 /* CRT Color Palette */
 :root {
     --crt-green: #00ff41;

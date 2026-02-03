@@ -58,12 +58,32 @@ export default async function handler(req, res) {
 
             // Calculate rank based on score
             const rank = calculateRank(score);
+            const trimmedUsername = username.trim().toLowerCase();
 
-            // Insert score
-            await sql`
-                INSERT INTO leaderboard (username, score, rank, created_at)
-                VALUES (${username.trim()}, ${score}, ${rank}, NOW())
+            // Check if username exists and get their current best score
+            const existing = await sql`
+                SELECT score FROM leaderboard
+                WHERE LOWER(username) = ${trimmedUsername}
+                LIMIT 1
             `;
+
+            if (existing.length > 0) {
+                // Username exists - only update if new score is higher
+                if (score > existing[0].score) {
+                    await sql`
+                        UPDATE leaderboard
+                        SET score = ${score}, rank = ${rank}, created_at = NOW()
+                        WHERE LOWER(username) = ${trimmedUsername}
+                    `;
+                }
+                // If score isn't higher, do nothing but still return success
+            } else {
+                // New username - insert
+                await sql`
+                    INSERT INTO leaderboard (username, score, rank, created_at)
+                    VALUES (${username.trim()}, ${score}, ${rank}, NOW())
+                `;
+            }
 
             // Get user's position
             const position = await sql`
